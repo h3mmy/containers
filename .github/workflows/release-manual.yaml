@@ -36,7 +36,7 @@ jobs:
       imagesToBuild: ${{ steps.determine-images.outputs.changes }}
     steps:
       - name: Checkout
-        uses: actions/checkout@
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.branch }}
 
