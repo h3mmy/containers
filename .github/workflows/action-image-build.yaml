@@ -31,6 +31,11 @@ on:
         default: 'false'
         type: string
 
+      branch:
+        required: true
+        default: 'extras'
+        type: string
+
 jobs:
   prepare:
     name: Prepare Matrices
@@ -42,6 +47,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 1
+          ref: ${{ inputs.branch }}
 
       - name: Log images to build
         run: |
