@@ -70,4 +70,5 @@ jobs:
     with:
       imagesToBuild: "${{ needs.determine-images.outputs.imagesToBuild }}"
       pushImages: "${{ github.event.inputs.push }}"
+      branch: ${{ inputs.branch }}
     secrets: inherit
