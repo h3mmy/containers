@@ -10,6 +10,7 @@ if [[ -f /config/config.xml ]]; then
     current_url_base="$(xmlstarlet sel -t -v "//UrlBase" -nl /config/config.xml)"
     current_branch="$(xmlstarlet sel -t -v "//Branch" -nl /config/config.xml)"
     current_api_key="$(xmlstarlet sel -t -v "//ApiKey" -nl /config/config.xml)"
+    current_analytics_enabled="$(xmlstarlet sel -t -v "//AnalyticsEnabled" -nl /config/config.xml)"
     current_authentication_method="$(xmlstarlet sel -t -v "//AuthenticationMethod" -nl /config/config.xml)"
     current_authentication_required="$(xmlstarlet sel -t -v "//AuthenticationRequired" -nl /config/config.xml)"
     current_instance_name="$(xmlstarlet sel -t -v "//InstanceName" -nl /config/config.xml)"
@@ -29,6 +30,7 @@ envsubst < /app/config.xml.tmpl > /config/config.xml
 [[ -z "${WHISPARR__URL_BASE}" && -n "${current_url_base}" ]] && xmlstarlet edit --inplace --update //UrlBase -v "${current_url_base}" /config/config.xml
 [[ -z "${WHISPARR__BRANCH}" && -n "${current_branch}" ]] && xmlstarlet edit --inplace --update //Branch -v "${current_branch}" /config/config.xml
 [[ -z "${WHISPARR__API_KEY}" && -n "${current_api_key}" ]] && xmlstarlet edit --inplace --update //ApiKey -v "${current_api_key}" /config/config.xml
+[[ -z "${WHISPARR__ANALYTICS_ENABLED}" && -n "${current_analytics_enabled}" ]] && xmlstarlet edit --inplace --update //AnalyticsEnabled -v "${current_analytics_enabled}" /config/config.xml
 [[ -z "${WHISPARR__AUTHENTICATION_METHOD}" && -n "${current_authentication_method}" ]] && xmlstarlet edit --inplace --update //AuthenticationMethod -v "${current_authentication_method}" /config/config.xml
 [[ -z "${WHISPARR__AUTHENTICATION_REQUIRED}" && -n "${current_authentication_required}" ]] && xmlstarlet edit --inplace --update //AuthenticationRequired -v "${current_authentication_required}" /config/config.xml
 [[ -z "${WHISPARR__INSTANCE_NAME}" && -n "${current_instance_name}" ]] && xmlstarlet edit --inplace --update //InstanceName -v "${current_instance_name}" /config/config.xml
