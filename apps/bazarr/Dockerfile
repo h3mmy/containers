@@ -1,4 +1,5 @@
-FROM ghcr.io/onedr0p/alpine:rolling@sha256:da2846e0398d55a5178448f7cb9ee1eeeeee13830fba40289152798595f78c8a
+# Force using 3.10
+FROM ghcr.io/onedr0p/alpine:3.17.3
 
 ARG TARGETPLATFORM
 ARG VERSION
@@ -21,15 +22,14 @@ RUN \
 
 #hadolint ignore=DL3018,DL3013
 RUN \
-    apk add --no-cache ca-certificates ffmpeg python3 py3-lxml py3-numpy py3-gevent py3-cryptography py3-setuptools \
+    apk add --no-cache ca-certificates mediainfo ffmpeg python3 py3-lxml py3-numpy py3-gevent py3-cryptography py3-setuptools py3-pillow py3-psycopg2 \
     && \
-    apk add --no-cache --virtual .build-deps py3-pip gcc python3-dev musl-dev \
+    apk add --no-cache --virtual .build-deps py3-pip python3-dev gcc musl-dev \
     && \
     pip install --upgrade pip \
     && \
     pip install --upgrade \
-        gevent-websocket \
-        webrtcvad-wheels \
+      "webrtcvad-wheels>=2.0.10" \
     && apk del --purge .build-deps \
     && rm -rf \
         /root/.cache \

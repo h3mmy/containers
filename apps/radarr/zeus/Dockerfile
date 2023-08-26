@@ -1,4 +1,4 @@
-FROM ghcr.io/onedr0p/alpine:rolling@sha256:da2846e0398d55a5178448f7cb9ee1eeeeee13830fba40289152798595f78c8a
+FROM ghcr.io/onedr0p/alpine:rolling@sha256:974f5883eb9b838792f1b27b812d8b9f80375ba9ac1f8b038fda27a53f6cd763
 
 ARG TARGETPLATFORM
 ARG VERSION
@@ -19,13 +19,15 @@ RUN \
         'linux/arm64') export ARCH='arm64' ;; \
     esac \
     && \
+    mkdir -p /app/bin \
+    && \
     curl -fsSL "https://radarr.servarr.com/v1/update/${RADARR__BRANCH}/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=${ARCH}" \
-        | tar xzf - -C /app --strip-components=1 \
+        | tar xzf - -C /app/bin --strip-components=1 \
     && \
     rm -rf \
-        /app/Radarr.Update \
+        /app/bin/Radarr.Update \
     && \
-    printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[onedr0p](https://github.com/onedr0p)" "${RADARR__BRANCH}" "${VERSION}" > /app/package_info \
+    printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[onedr0p](https://github.com/onedr0p)\n" "${RADARR__BRANCH}" "${VERSION}" > /app/package_info \
     && chown -R root:root /app \
     && chmod -R 755 /app \
     && rm -rf /tmp/*
